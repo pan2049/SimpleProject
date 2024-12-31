@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "tw.pan.mappers.CityMapper">
+	<resultMap id = "cityWithCountry" type = "tw.pan.entity.City">
+		<id property = "cityId" column = "city_id"></id>
+		<result property = "city" column = "city"></result>
+		<result property = "lastUpdate" column = "last_update"></result>
+		<association property = "country" javaType = "tw.pan.entity.Country">
+			<id property = "countryId" column = "country_id"></id>
+			<result property = "country" column = "country"></result>
+			<result property = "lastUpdate" column = "last_update"></result>
+		</association>
+	</resultMap>
+	
+	<resultMap id = "getCity" type = "tw.pan.entity.City">
+		<id property = "cityId" column = "city_id"></id>
+		<result property = "city" column = "city"></result>
+		<result property = "lastUpdate" column = "last_update"></result>
+	</resultMap>
+	
+	<select id = "getCityWithCountry" resultMap = "cityWithCountry">
+		SELECT c.city_id, c.city, c.last_update, o.country_id, o.country, o.last_update
+		FROM sakila.city AS c 
+		LEFT JOIN sakila.country AS o 
+		ON c.country_id = o.country_id
+	</select>
+	
+	<select id = "getCity" resultMap="getCity">
+		SELECT c.city_id, c.city, c.last_update FROM sakila.city AS c
+	</select>
+</mapper>
+
