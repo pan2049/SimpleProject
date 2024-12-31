@@ -8,4 +8,11 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Payment {
 
+	private Integer paymentId;
+	private Customer customer;
+	private Staff staff;
+	private Rental rental;
+	private Float amount;
+	private String paymentDate;
+	private String lastUpdate;
 }

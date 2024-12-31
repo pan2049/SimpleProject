@@ -18,10 +18,10 @@ class SimpleProjectApplicationTests {
 	
 	@Test
 	void contextLoads() {
-//		List<City> result = cityMapper.getCityWithCountry();
-//		for(City c : result) {
-//			System.out.println(c.getCountry().getCountry());
-//		}
+		List<City> result = cityMapper.getCityWithCountry();
+		for(City c : result) {
+			System.out.println(c);
+		}
 	}
 
 }

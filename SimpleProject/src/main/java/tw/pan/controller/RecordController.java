@@ -19,7 +19,7 @@ public class RecordController {
 	
 	// 新增租借紀錄
 	// 權限
-	@PutMapping(value = "/put/rental/create")
+	@PostMapping(value = "/post/rental/create")
 	public String addRental() {
 		return "";
 	}
@@ -47,7 +47,7 @@ public class RecordController {
 	
 	// 新增付款紀錄
 	// 權限
-	@PutMapping(value = "/put/payment/create")
+	@PostMapping(value = "/post/payment/create")
 	public String addPayment() {
 		return "";
 	}

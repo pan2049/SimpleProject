@@ -19,7 +19,7 @@
 	</resultMap>
 	
 	<select id = "getCityWithCountry" resultMap = "cityWithCountry">
-		SELECT c.city_id, c.city, c.last_update, o.country_id, o.country, o.last_update
+		SELECT c.city_id, c.city, c.last_update, o.country, o.last_update
 		FROM sakila.city AS c 
 		LEFT JOIN sakila.country AS o 
 		ON c.country_id = o.country_id

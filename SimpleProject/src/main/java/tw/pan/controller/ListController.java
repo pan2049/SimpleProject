@@ -1,23 +1,38 @@
 package tw.pan.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import tw.pan.entity.City;
+import tw.pan.entity.Film;
+import tw.pan.mappers.CityMapper;
+import tw.pan.mappers.ListMapper;
 
 @RestController
 @RequestMapping(value = "/api")
 @CrossOrigin
 public class ListController {
+	
+	@Autowired
+	private ListMapper listMapper;
 
 	// 搜尋電影
 	// 模糊搜尋
-	@GetMapping(value = "/get/film/search/{text}")
-	public String getFilmSearch() {
-		return "";
+	@GetMapping(value = "/get/film/search")
+	public List<Film> getFilmSearch(@RequestParam(value = "text", required=true) String text) {
+		System.out.println(text);
+		return listMapper.selectAllFilm();
 	}
 	
 	// 搜尋電影
@@ -50,7 +65,7 @@ public class ListController {
 	
 	// 新增會員
 	// 加權限
-	@PutMapping(value = "/put/customer")
+	@PostMapping(value = "/post/customer")
 	public String addCustomer() {
 		return "";
 	}
@@ -61,8 +76,6 @@ public class ListController {
 	public String deleteCustomer() {
 		return "";
 	}
-	
-	
 	
 	
 }

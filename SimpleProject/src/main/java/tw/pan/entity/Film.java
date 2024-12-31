@@ -1,16 +1,16 @@
 package tw.pan.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Film extends Category{
+public class Film{
 
 	private Integer FID;
 	private String title;
@@ -23,8 +23,11 @@ public class Film extends Category{
 	private Integer length;
 	private Float replacementCost;
 	private String rating;
-	private String specialFeatures;
+	private Set<String> specialFeatures;
 	private String lastUpdate;
 	
-	private List<Actor> actorList;
+	// exception param
+	private String category;
+	private String actors;
+	
 }
