@@ -9,70 +9,90 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import tw.pan.entity.City;
 import tw.pan.entity.Film;
-import tw.pan.mappers.CityMapper;
-import tw.pan.mappers.ListMapper;
+import tw.pan.service.ListService;
+import tw.pan.utils.StringTool;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/index/api")
 @CrossOrigin
 public class ListController {
 	
 	@Autowired
-	private ListMapper listMapper;
+	private ListService listService;
 
 	// 搜尋電影
 	// 模糊搜尋
-	@GetMapping(value = "/get/film/search")
-	public List<Film> getFilmSearch(@RequestParam(value = "text", required=true) String text) {
-		System.out.println(text);
-		return listMapper.selectAllFilm();
+	@GetMapping(value = "/film")
+	public List<Film> getFilmSearch(@RequestParam String text) {
+		if(text == null) {
+			// 參數null or "" 回傳錯誤
+			System.out.println("參數null or \"\" 回傳錯誤");
+			return null;
+		}
+		if(StringTool.isSpace(text) || text.equals("")) {
+			// 參數為空白,搜尋全部
+			System.out.println("參數為空白,搜尋全部");
+			return listService.getAllFilm();
+		}
+		if(StringTool.hasTextAndSpace(text)) {
+			// 單一搜尋
+			System.out.println("單一搜尋");
+			return listService.getFilmFuzzyQuery(text);
+		}else {
+			// 多條件搜尋
+			System.out.println("多條件搜尋");
+			return listService.getFilmFuzzyQuery(StringTool.cutString(text));
+		}
+		
 	}
 	
 	// 搜尋電影
 	// ?作法
-	@GetMapping(value = "/get/film/byActor")
-	public String getFilmByActor() {
+	@GetMapping(value = "/film/actor/{actor}")
+	public String getFilmByActor(@PathVariable String actor) {
+		System.out.println(actor);
 		return "";
 	}
 	
 	// 搜尋電影
 	// 不同做法 {}作法
-	@GetMapping(value = "/get/film/byCategory/{category}")
-	public String getFilmByCategory() {
+	@GetMapping(value = "/film/category/{category}")
+	public String getFilmByCategory(@PathVariable String category) {
+		System.out.println(category);
 		return "";
 	}
 	
 	// 搜尋客戶資料
 	// 加權限
-	@GetMapping(value = "/get/customer/byName/{name}")
-	public String getCustomerByName() {
+	@GetMapping(value = "/customer")
+	public String getCustomerByName(@RequestParam String name) {
 		return "";
 	}
 	
 	// 取得庫存資料
 	// 加權限
-	@PostMapping(value = "/post/inventory/byFilmAndStore")
+	@PostMapping(value = "/inventory")
 	public String getInventoryByFilmAndStore() {
 		return "";
 	}
 	
 	// 新增會員
 	// 加權限
-	@PostMapping(value = "/post/customer")
+	@PostMapping(value = "/customer")
 	public String addCustomer() {
 		return "";
 	}
 	
 	// 刪除會員
 	// 加權限
-	@DeleteMapping(value = "/delete/customer")
+	@DeleteMapping(value = "/customer")
 	public String deleteCustomer() {
 		return "";
 	}

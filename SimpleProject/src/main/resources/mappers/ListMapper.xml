@@ -12,13 +12,52 @@
 		<result property="actors" column="actors"/>
 	</resultMap>
 	
-	<select id = "selectAllFilm" resultMap = "filmWithCategoryAndActor">
-	SELECT film.film_id AS FID, film.title AS title, film.description AS description, category.name AS category, film.rental_rate AS price,
-		film.length AS length, film.rating AS rating, GROUP_CONCAT(CONCAT(actor.first_name, _utf8' ', actor.last_name) SEPARATOR ', ') AS actors
-	FROM category LEFT JOIN film_category ON category.category_id = film_category.category_id LEFT JOIN film ON film_category.film_id = film.film_id
-        	JOIN film_actor ON film.film_id = film_actor.film_id
+	<sql id = "filmRef">
+		film.film_id AS FID, film.title AS title, film.description AS description, category.name AS category, film.rental_rate AS price, 
+		film.length AS length, film.rating AS rating, GROUP_CONCAT(CONCAT(actor.first_name, _utf8' ', actor.last_name) SEPARATOR ', ') AS actors 
+		FROM category LEFT JOIN film_category ON category.category_id = film_category.category_id 
+		LEFT JOIN film ON film_category.film_id = film.film_id 
+        JOIN film_actor ON film.film_id = film_actor.film_id 
 		JOIN actor ON film_actor.actor_id = actor.actor_id
-	GROUP BY film.film_id, category.name
+	</sql>
+	
+	<sql id = "filmWhereRef">
+		<bind name = "textPattern" value = "'%' + text + '%'"></bind>
+		film.title LIKE #{textPattern} 
+		OR film.description LIKE #{textPattern} 
+		OR actor.first_name LIKE #{textPattern} 
+		OR actor.last_name LIKE #{textPattern}
+	</sql>
+	
+	<select id = "selectAllFilm" resultMap = "filmWithCategoryAndActor">
+		SELECT 
+		<include refid="filmRef"></include>
+		GROUP BY film.film_id, category.name
+	</select>
+	
+	<select id = "selectFilm" resultMap = "filmWithCategoryAndActor">
+		SELECT
+		<include refid="filmRef"></include>
+		<where>
+			<if test="text != null">
+				<include refid="filmWhereRef"></include>
+			</if>
+		</where>
+		GROUP BY film.film_id, category.name
+	</select>
+	
+	<select id = "selectFilmByTexts" resultMap="filmWithCategoryAndActor">
+		SELECT
+		<include refid="filmRef"></include>
+		<where>
+			<if test = "texts != null">
+				film.title LIKE #{texts} 
+				OR film.description LIKE #{texts} 
+				OR actor.first_name LIKE #{texts} 
+				OR actor.last_name LIKE #{texts}
+			</if>
+		</where>
+		GROUP BY film.film_id, category.name
 	</select>
 
 </mapper>
