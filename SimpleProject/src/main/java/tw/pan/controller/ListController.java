@@ -33,7 +33,7 @@ public class ListController {
 	public List<Film> getFilmSearch(@RequestParam String text) {
 		if(text == null) {
 			// 參數null or "" 回傳錯誤
-			System.out.println("參數null or \"\" 回傳錯誤");
+			System.out.println("參數null回傳錯誤");
 			return null;
 		}
 		if(StringTool.isSpace(text) || text.equals("")) {
@@ -56,17 +56,35 @@ public class ListController {
 	// 搜尋電影
 	// ?作法
 	@GetMapping(value = "/film/actor/{actor}")
-	public String getFilmByActor(@PathVariable String actor) {
-		System.out.println(actor);
-		return "";
+	public List<Film> getFilmByActor(@PathVariable String actor) {
+		if(actor == null) {
+			// 參數null or "" 回傳錯誤
+			System.out.println("參數null 回傳錯誤");
+			return null;
+		}
+		if(StringTool.isSpace(actor) || actor.equals("")) {
+			// 參數為空白,搜尋全部
+			System.out.println("參數為空白回傳錯誤");
+			return null;
+		}
+		return listService.getFilmByActor(actor);
 	}
 	
 	// 搜尋電影
 	// 不同做法 {}作法
 	@GetMapping(value = "/film/category/{category}")
-	public String getFilmByCategory(@PathVariable String category) {
-		System.out.println(category);
-		return "";
+	public List<Film> getFilmByCategory(@PathVariable String category) {
+		if(category == null) {
+			// 參數null or "" 回傳錯誤
+			System.out.println("參數null回傳錯誤");
+			return null;
+		}
+		if(StringTool.isSpace(category) || category.equals("")) {
+			// 參數為空白,搜尋全部
+			System.out.println("參數為空白回傳錯誤");
+			return null;
+		}
+		return listService.getFilmByCategory(category);
 	}
 	
 	// 搜尋客戶資料

@@ -12,4 +12,7 @@ public interface ListMapper {
 	
 	List<Film> selectFilmByTexts(String texts);
 	
+	List<Film> selectFilmByActor(String actorFullName);
+	
+	List<Film> selectFilmByCategory(String categoryName);
 }
