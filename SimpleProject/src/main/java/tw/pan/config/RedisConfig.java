@@ -28,10 +28,12 @@ public class RedisConfig {
 	@Bean
 	RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
 	    return (builder) -> builder
-	      .withCacheConfiguration("itemCache",
-	        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
-	      .withCacheConfiguration("customerCache",
-	        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)));
+	      .withCacheConfiguration("filmSearchCache",
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
+	      .withCacheConfiguration("filmActorCache",
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
+	      .withCacheConfiguration("filmCategoryCache", 
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)));
 	}
 	
 }

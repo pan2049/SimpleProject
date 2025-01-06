@@ -35,5 +35,12 @@ server:
 logging:
   level:
     tw.pan.mappers: debug
+  org: 
+    springframework:
+      data:
+        redis: debug
+    fasterxml:
+      jackson:
+        databind: debug
 
     

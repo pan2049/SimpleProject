@@ -29,7 +29,7 @@ public class ListController {
 
 	// 搜尋電影
 	// 模糊搜尋
-	@GetMapping(value = "/film")
+	@GetMapping(value = "/film/search")
 	public List<Film> getFilmSearch(@RequestParam String text) {
 		if(text == null) {
 			// 參數null or "" 回傳錯誤
@@ -52,7 +52,7 @@ public class ListController {
 		}
 		
 	}
-	
+
 	// 搜尋電影
 	// ?作法
 	@GetMapping(value = "/film/actor/{actor}")
