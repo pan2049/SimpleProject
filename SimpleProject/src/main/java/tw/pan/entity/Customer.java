@@ -18,4 +18,6 @@ public class Customer{
 	private String createDate;
 	private String lastUpdate;
 	
+	private String fullName;
+	private String note;
 }

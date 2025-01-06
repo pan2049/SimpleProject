@@ -4,7 +4,7 @@ import java.util.List;
 
 import tw.pan.entity.Film;
 
-public interface ListMapper {
+public interface FilmDao {
 
 	List<Film> selectAllFilm();
 	

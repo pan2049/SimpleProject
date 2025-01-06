@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace = "tw.pan.mappers.ListMapper">
+<mapper namespace = "tw.pan.mappers.filmDao">
 	<resultMap id = "filmWithCategoryAndActor" type = "tw.pan.entity.Film">
 		<id property = "FID" column = "FID"></id>
 		<result property="title" column="title"/>

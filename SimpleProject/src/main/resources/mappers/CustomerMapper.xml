@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "tw.pan.mappers.CustomerDao">
+	<resultMap id = "customerWithAddress" type = "tw.pan.entity.Customer">
+		<id property = "customerId" column = "customer_id"></id>
+		<result property="firstName" column="first_name"/>
+		<result property="lastName" column="last_name"/>
+		<result property="email" column="email"/>
+		<result property="active" column="active"/>
+		<result property="createDate" column="createdate"/>
+		<result property="lastUpdate" column="customer_last_update"/>
+		<result property="fullName" column="full_name"/>
+		<result property="note" column="note"/>
+		<association property="Address" javaType="tw.pan.entity.Address">
+			<id property = "addressId" column = "address_id"/>
+			<result property="address" column="address"/>
+			<result property="address2" column="address2"/>
+			<result property="district" column="district"/>
+			<result property="postalCode" column="postal_code"/>
+			<result property="phone" column="phone"/>
+			<result property="lastUpdate" column="address_last_update"/>
+			<association property="city" javaType="tw.pan.entity.City">
+				<id property="cityId" column="city_id"/>
+				<result property="city" column="city"/>
+				<result property="lastUpdate" column="city_last_update"/>
+				<association property="country" javaType="tw.pan.entity.Country">
+					<id property="countryId" column="country_id"/>
+					<result property="country" column="country"/>
+					<result property="lastUpdate" column="country_last_update"/>
+				</association>
+			</association>
+		</association>
+	</resultMap>
+	
+	<sql id = "customerColumnRef">
+		 cu.customer_id, CONCAT(cu.first_name, _utf8' ', cu.last_name) AS full_name, 
+		a.address, a.postal_code, a.phone, ci.city, co.country, 
+		IF(cu.active, _utf8'active',_UTF8'') AS note
+	</sql>
+	
+	<sql id = "customerFromRef">
+		 sakila.customer AS cu
+		LEFT JOIN sakila.address AS a
+		ON cu.address_id = a.address_id
+		INNER JOIN sakila.city AS ci
+		ON a.city_id = ci.city_id
+		INNER JOIN sakila.country AS co
+		ON ci.country_id = co.country_id		
+	</sql>
+	
+	<sql id = "orderByRef">
+		cu.last_update, cu.first_name
+	</sql>
+	
+	<select id = "selectAllCustomer" resultMap="customerWithAddress">
+		SELECT
+		<include refid="customerColumnRef"/>
+		FROM
+		<include refid="customerFromRef"></include>
+		ORDER BY
+		<include refid="orderByRef"></include>
+	</select>
+	
+	
+
+</mapper>
+

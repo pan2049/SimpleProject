@@ -1,31 +1,33 @@
 package tw.pan.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import tw.pan.entity.Customer;
 import tw.pan.entity.Film;
-import tw.pan.mappers.ListMapper;
+import tw.pan.mappers.CustomerDao;
+import tw.pan.mappers.FilmDao;
 
 @Service
 public class ListService {
 
 	@Autowired
-	private ListMapper listMapper;
+	private FilmDao filmDao;
+	@Autowired
+	private CustomerDao customerDao;
 	
 	@Cacheable(value = "filmSearchCache", key = "'all'")
 	public List<Film> getAllFilm() {
-		return listMapper.selectAllFilm();
+		return filmDao.selectAllFilm();
 	}
 	
 	@Cacheable(value = "filmSearchCache", key = "#text")
 	public List<Film> getFilmFuzzyQuery(String text) {
 		System.out.println("search!!!");
-		return listMapper.selectFilm(text);
+		return filmDao.selectFilm(text);
 	}
 	
 	@Cacheable(value = "filmSearchCache", key = "#texts.toString()")
@@ -35,17 +37,25 @@ public class ListService {
 			likeStr += "%" + text;
 		}
 		likeStr += "%";
-		return listMapper.selectFilmByTexts(likeStr);
+		return filmDao.selectFilmByTexts(likeStr);
 	}
 	
 	@Cacheable(value = "filmActorCache", key = "#actorFullName")
 	public List<Film> getFilmByActor(String actorFullName) {
-		return listMapper.selectFilmByActor(actorFullName);
+		return filmDao.selectFilmByActor(actorFullName);
 	}
 	
 	@Cacheable(value = "filmCategoryCache", key = "#categoryName")
 	public List<Film> getFilmByCategory(String categoryName) {
-		return listMapper.selectFilmByCategory(categoryName);
+		return filmDao.selectFilmByCategory(categoryName);
 	}
+	
+	public List<Customer> getAllCustomer() {
+		return customerDao.selectAllCustomer();
+	}
+	
+//	public List<Customer> getCustomerByName(String name) {
+//		return customerDao.selectCustomer(name);
+//	}
 	
 }

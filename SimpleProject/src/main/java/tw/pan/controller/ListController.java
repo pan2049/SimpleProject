@@ -8,13 +8,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import tw.pan.entity.Customer;
 import tw.pan.entity.Film;
 import tw.pan.service.ListService;
 import tw.pan.utils.StringTool;
@@ -89,9 +87,19 @@ public class ListController {
 	
 	// 搜尋客戶資料
 	// 加權限
-	@GetMapping(value = "/customer")
-	public String getCustomerByName(@RequestParam String name) {
-		return "";
+	@GetMapping(value = "/customer/search")
+	public List<Customer> getCustomerByName(@RequestParam String name) {
+		if(name == null) {
+			// 參數null or "" 回傳錯誤
+			System.out.println("參數null回傳錯誤");
+			return null;
+		}
+		if(StringTool.isSpace(name) || name.equals("")) {
+			// 參數為空白,搜尋全部
+			return listService.getAllCustomer();
+		}
+//		return listService.getAllCustomer(name);
+		return null;
 	}
 	
 	// 取得庫存資料
