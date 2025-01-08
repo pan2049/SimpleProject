@@ -98,11 +98,11 @@ public class ListService {
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public void deleteCutomerAndAddress(Integer cutomerId) {
-		Customer cutomer = customerDao.selectCustomerById(cutomerId);
-		if(cutomer != null) {
-			customerDao.deleteCustomerById(cutomerId);
-			addressDao.deleteAddress(cutomer.getAddress().getAddressId());
+	public void deleteCustomerAndAddress(Integer customerId) {
+		Customer customer = customerDao.selectCustomerById(customerId);
+		if(customer != null) {
+			customerDao.deleteCustomerById(customerId);
+			addressDao.deleteAddress(customer.getAddress().getAddressId());
 		}else {
 			// 資料錯誤
 		}
