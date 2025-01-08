@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "tw.pan.mappers.InventoryDao">
+	<resultMap id = "InventoryWithFilm" type = "tw.pan.entity.Inventory">
+		<id property = "inventoryId" column = "inventory_id"></id>
+		<result property="lastUpdate" column="inventory_last_update"/>
+		<result property="quantity" column="quantity"/>
+		<association property="film" javaType="tw.pan.entity.Film">
+			<id property = "filmId" column = "film_id"/>
+			<result property="title" column="title"/>
+		</association>
+		<association property="store" javaType="tw.pan.entity.Store">
+			<id property="storeId" column="store_id"></id>
+		</association>
+	</resultMap>
+	
+	<sql id = "InventoryColumnRef">
+		f.film_id, f.title, i.store_id, COUNT(i.inventory_id) AS quantity
+	</sql>
+	
+	<sql id = "InventoryFromRef">
+		 sakila.inventory AS i
+		LEFT JOIN sakila.film AS f
+		ON i.film_id = f.film_id
+	</sql>
+	
+	<sql id = "groupByRef">
+		  f.film_id, i.store_id
+	</sql>
+	
+	<sql id = "orderByRef">
+		 f.title ASC
+	</sql>
+	
+	<select id = "selectAllInventory" resultMap="InventoryWithFilm">
+		SELECT
+		<include refid="InventoryColumnRef"/>
+		FROM
+		<include refid="InventoryFromRef"></include>
+		GROUP BY
+		<include refid="groupByRef"></include>
+		ORDER BY
+		<include refid="orderByRef"></include>
+	</select>
+	
+	<select id = "selectInventoryByFilm" resultMap="InventoryWithFilm">
+		SELECT
+		<include refid="InventoryColumnRef"/>
+		FROM
+		<include refid="InventoryFromRef"></include>
+		<where>
+			<if test = "name != null">
+				<bind name="textCombine" value="'%' + name + '%'"/>
+				f.title LIKE #{textCombine}
+			</if>
+		</where>
+		GROUP BY
+		<include refid="groupByRef"></include>
+		ORDER BY
+		<include refid="orderByRef"></include>
+	</select>
+
+</mapper>
+

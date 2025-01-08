@@ -19,7 +19,7 @@ public class Film implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
-	private Integer FID;
+	private Integer filmId;
 	private String title;
 	private String description;
 	private Integer releaseYear;

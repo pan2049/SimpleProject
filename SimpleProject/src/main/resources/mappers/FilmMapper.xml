@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace = "tw.pan.mappers.filmDao">
+<mapper namespace = "tw.pan.mappers.FilmDao">
 	<resultMap id = "filmWithCategoryAndActor" type = "tw.pan.entity.Film">
-		<id property = "FID" column = "FID"></id>
+		<id property = "filmId" column = "film_id"></id>
 		<result property="title" column="title"/>
 		<result property="description" column="description"/>
 		<result property="category" column="category"/>
@@ -13,7 +13,7 @@
 	</resultMap>
 	
 	<sql id = "filmRef">
-		f.film_id AS FID, f.title, f.description, c.name AS category, f.rental_rate AS price, f.`length`, f.rating, 
+		f.film_id, f.title, f.description, c.name AS category, f.rental_rate AS price, f.`length`, f.rating, 
 			GROUP_CONCAT(CONCAT(a.first_name, _utf8' ', a.last_name) SEPARATOR ', ') AS actors
 		FROM sakila.category AS c
 		LEFT JOIN sakila.film_category as fc
@@ -27,10 +27,10 @@
 	</sql>
 	
 	<sql id = "filmWhereRef">
-		<bind name = "textPattern" value = "'%' + text + '%'"></bind>
-		f.title LIKE #{textPattern} 
-		OR f.description LIKE #{textPattern} 
-		OR CONCAT(a.first_name, _utf8' ', a.last_name) LIKE #{textPattern}
+		<bind name = "textCombine" value = "'%' + text + '%'"></bind>
+		f.title LIKE #{textCombine} 
+		OR f.description LIKE #{textCombine} 
+		OR CONCAT(a.first_name, _utf8' ', a.last_name) LIKE #{textCombine}
 	</sql>
 	
 	<select id = "selectAllFilm" resultMap = "filmWithCategoryAndActor">
@@ -64,7 +64,7 @@
 	</select>
 	
 	<select id = "selectFilmByActor" resultMap="filmWithCategoryAndActor">
-		SELECT f.film_id AS FID, f.title, f.description, c.name AS category, f.rental_rate AS price, f.`length`, f.rating, a.first_name
+		SELECT f.film_id, f.title, f.description, c.name AS category, f.rental_rate AS price, f.`length`, f.rating, a.first_name
 		FROM sakila.film_actor AS fa
 		LEFT JOIN sakila.actor AS a
 		ON fa.actor_id = a.actor_id

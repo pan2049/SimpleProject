@@ -33,6 +33,8 @@ public class RedisConfig {
 	      .withCacheConfiguration("filmActorCache",
 	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
 	      .withCacheConfiguration("filmCategoryCache", 
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
+	      .withCacheConfiguration("customerSearchCache", 
 	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)));
 	}
 	

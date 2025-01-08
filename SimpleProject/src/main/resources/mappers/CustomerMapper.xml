@@ -11,7 +11,7 @@
 		<result property="lastUpdate" column="customer_last_update"/>
 		<result property="fullName" column="full_name"/>
 		<result property="note" column="note"/>
-		<association property="Address" javaType="tw.pan.entity.Address">
+		<association property="address" javaType="tw.pan.entity.Address">
 			<id property = "addressId" column = "address_id"/>
 			<result property="address" column="address"/>
 			<result property="address2" column="address2"/>
@@ -34,7 +34,7 @@
 	
 	<sql id = "customerColumnRef">
 		 cu.customer_id, CONCAT(cu.first_name, _utf8' ', cu.last_name) AS full_name, 
-		a.address, a.postal_code, a.phone, ci.city, co.country, 
+		a.address_id, a.address, a.postal_code, a.phone, ci.city, co.country, 
 		IF(cu.active, _utf8'active',_UTF8'') AS note
 	</sql>
 	
@@ -61,7 +61,42 @@
 		<include refid="orderByRef"></include>
 	</select>
 	
+	<select id = "selectCustomerByName" resultMap="customerWithAddress">
+		SELECT
+		<include refid="customerColumnRef"/>
+		FROM
+		<include refid="customerFromRef"></include>
+		<where>
+			<if test = "name != null">
+				<bind name = "textCombine" value = "'%' + name + '%'"></bind>
+				cu.first_name LIKE #{textCombine} OR cu.last_name LIKE #{textCombine}
+			</if>
+		</where>
+		ORDER BY
+		<include refid="orderByRef"></include>
+	</select>
 	
+	<select id="selectCustomerById" resultMap="customerWithAddress">
+		SELECT
+		<include refid="customerColumnRef"/>
+		FROM
+		<include refid="customerFromRef"></include>
+		<where>
+			<if test = "id != null">
+				cu.customer_id = #{id}
+			</if>
+		</where>
+		ORDER BY
+		<include refid="orderByRef"></include>
+	</select>
 
+	<insert id="insertCustomer" parameterType="tw.pan.entity.Customer">
+		INSERT INTO sakila.customer (`store_id`, `first_name`, `last_name`, `email`, `address_id`) 
+		VALUES (#{store.storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId})
+	</insert>
+	
+	<delete id="deleteCustomerById">
+		DELETE FROM sakila.customer WHERE `customer_id` = #{id}
+	</delete>
 </mapper>
 
