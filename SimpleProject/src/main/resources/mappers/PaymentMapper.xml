@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "tw.pan.mappers.PaymentDao">
+	<resultMap id = "paymantWithCustomer" type = "tw.pan.entity.Payment">
+		<id property = "paymentId" column = "payment_id"></id>
+		<result property="amount" column="amount"/>
+		<result property="paymentDate" column="payment_date"/>
+		<result property="lastUpdate" column="payment_last_update"/>
+		<association property="customer" javaType="tw.pan.entity.Customer">
+			<id property = "customerId" column = "customer_id"></id>
+			<result property="fullName" column="customer_name"/>
+		</association>
+		<association property="staff" javaType="tw.pan.entity.Staff">
+			<id property = "staffId" column = "staff_id"></id>
+			<result property="fullName" column="staff_name"/>
+		</association>
+		<association property="rental" javaType="tw.pan.entity.Rental">
+			<id property = "rentalId" column = "rental_id"></id>
+		</association>
+	</resultMap>
+	
+	<sql id = "paymentColumnRef">
+		 p.payment_id, cu.customer_id, CONCAT(cu.first_name, _utf8' ', cu.last_name) AS customer_name, 
+		st.staff_id, CONCAT(st.first_name, _utf8' ', st.last_name) AS staff_name, 
+		p.rental_id, p.amount, p.payment_date
+	</sql>
+	
+	<sql id = "paymentFromRef">
+		 sakila.payment AS p
+		LEFT JOIN sakila.customer AS cu
+		ON p.customer_id = cu.customer_id
+		LEFT JOIN sakila.staff AS st
+		ON p.staff_id = st.staff_id
+	</sql>
+	
+	<sql id = "orderByRef">
+		 p.payment_date DESC
+	</sql>
+	
+	<select id = "selectAllPayment" resultMap="paymantWithCustomer">
+		SELECT
+		<include refid="paymentColumnRef"></include>
+		FROM
+		<include refid="paymentFromRef"></include>
+		ORDER BY 
+		<include refid="orderByRef"></include>
+		LIMIT #{page}, #{size}
+	</select>
+	
+	<select id = "selectPaymentByCustomer" resultMap="paymantWithCustomer">
+		SELECT
+		<include refid="paymentColumnRef"></include>
+		FROM
+		<include refid="paymentFromRef"></include>
+		<where>
+			<if test="name != null">
+				<bind name="textCombine" value="'%' + name + '%'"/>
+				cu.first_name LIKE #{textCombine} OR cu.last_name LIKE #{textCombine}
+			</if>
+		</where>
+		ORDER BY 
+		<include refid="orderByRef"></include>
+		LIMIT #{page}, #{size}
+	</select>
+
+	<select id = "selectPaymentByDate" resultMap="paymantWithCustomer">
+		SELECT
+		<include refid="paymentColumnRef"></include>
+		FROM
+		<include refid="paymentFromRef"></include>
+		<where>
+			<if test="startTime != null and endTime != null">
+				p.payment_date BETWEEN #{startTime} AND #{endTime}
+			</if>
+		</where>
+		ORDER BY 
+		<include refid="orderByRef"></include>
+		LIMIT #{page}, #{size}
+	</select>
+	
+	<insert id="insertPayment" parameterType="tw.pan.entity.Payment">
+		INSERT INTO sakila.payment (`customer_id`, `staff_id`, `rental_id`, `amount`) 
+		VALUES (#{customerId}, #{staffId}, #{rentalId}, #{amount})
+	</insert>
+
+</mapper>
+

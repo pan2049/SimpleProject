@@ -7,7 +7,7 @@
 		<result property="lastName" column="last_name"/>
 		<result property="email" column="email"/>
 		<result property="active" column="active"/>
-		<result property="createDate" column="createdate"/>
+		<result property="createDate" column="create_date"/>
 		<result property="lastUpdate" column="customer_last_update"/>
 		<result property="fullName" column="full_name"/>
 		<result property="note" column="note"/>
@@ -90,12 +90,12 @@
 		<include refid="orderByRef"></include>
 	</select>
 
-	<insert id="insertCustomer" parameterType="tw.pan.entity.Customer">
+	<insert id="insertCustomer" parameterType="tw.pan.entity.Customer" >
 		INSERT INTO sakila.customer (`store_id`, `first_name`, `last_name`, `email`, `address_id`) 
 		VALUES (#{store.storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId})
 	</insert>
 	
-	<delete id="deleteCustomerById">
+	<delete id="deleteCustomerById" parameterType="java.lang.Integer">
 		DELETE FROM sakila.customer WHERE `customer_id` = #{id}
 	</delete>
 </mapper>

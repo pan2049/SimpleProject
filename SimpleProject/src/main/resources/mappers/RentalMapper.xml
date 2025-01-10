@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "tw.pan.mappers.RentalDao">
+	<resultMap id = "rentalWithCustomer" type = "tw.pan.entity.Rental">
+		<id property = "rentalId" column = "rental_id"></id>
+		<result property="rentalDate" column="rental_date"/>
+		<result property="returnDate" column="return_date"/>
+		<result property="lastUpdate" column="rental_last_update"/>
+		<association property="inventory" javaType="tw.pan.entity.Inventory">
+			<id property = "inventoryId" column = "inventory_id"></id>
+			<result property="lastUpdate" column="inventory_last_update"/>
+			<result property="quantity" column="quantity"/>
+			<association property="film" javaType="tw.pan.entity.Film">
+				<id property = "filmId" column = "film_id"/>
+				<result property="title" column="title"/>
+			</association>
+		</association>
+		<association property="customer" javaType="tw.pan.entity.Customer">
+			<id property = "customerId" column = "customer_id"></id>
+			<result property="fullName" column="customer_name"/>
+		</association>
+		<association property="staff" javaType="tw.pan.entity.Staff">
+			<id property = "staffId" column = "staff_id"></id>
+			<result property="fullName" column="staff_name"/>
+		</association>
+	</resultMap>
+	
+	<sql id = "rentalColumnRef">
+		 r.rental_id, r.rental_date, r.return_date, r.last_update AS rental_last_update, f.film_id, f.title, 
+		cu.customer_id, CONCAT(cu.first_name, _utf8' ', cu.last_name) AS customer_name, 
+		st.staff_id, CONCAT(st.first_name, _utf8' ', st.last_name) AS staff_name
+	</sql>
+	
+	<sql id = "rentalFromRef">
+		 sakila.rental AS r
+		LEFT JOIN sakila.inventory AS i
+		ON r.inventory_id = i.inventory_id
+		INNER JOIN sakila.film AS f
+		ON i.film_id = f.film_id
+		LEFT JOIN sakila.customer AS cu
+		ON r.customer_id = cu.customer_id
+		LEFT JOIN sakila.staff AS st
+		ON r.staff_id = st.staff_id
+	</sql>
+	
+	<sql id = "orderByRef">
+		 r.last_update DESC
+	</sql>
+	
+	<select id = "selectAllRental" resultMap="rentalWithCustomer">
+		SELECT
+		<include refid="rentalColumnRef"></include>
+		FROM
+		<include refid="rentalFromRef"></include>
+		ORDER BY 
+		<include refid="orderByRef"></include>
+		LIMIT #{page}, #{size}
+	</select>
+	
+	<select id = "selectRentalByCustomer" resultMap="rentalWithCustomer">
+		SELECT
+		<include refid="rentalColumnRef"></include>
+		FROM
+		<include refid="rentalFromRef"></include>
+		<where>
+			<if test="name != null">
+				<bind name="textCombine" value="'%' + name + '%'"/>
+				cu.first_name LIKE #{textCombine} OR cu.last_name LIKE #{textCombine}
+			</if>
+		</where>
+		ORDER BY 
+		<include refid="orderByRef"></include>
+		LIMIT #{page}, #{size}
+	</select>
+
+	<insert id = "insertRental" parameterType="tw.pan.entity.Rental">
+		INSERT INTO sakila.rental (`inventory_id`, `customer_id`, `staff_id`) VALUES (#{inventory.inventoryId}, #{customer.customerId}, #{staff.staffId})
+	</insert>
+	
+	<update id="updateRental" parameterType="tw.pan.entity.Rental">
+		UPDATE sakila.rental SET `return_date` = #{returnDate}, `staff_id` = #{staff.staffId} WHERE `rental_id` = #{rentalId}
+	</update>
+
+</mapper>
+

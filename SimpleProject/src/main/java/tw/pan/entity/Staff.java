@@ -1,13 +1,20 @@
 package tw.pan.entity;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Staff {
+public class Staff implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Integer staffId;
 	private String firstName;
 	private String lastName;
@@ -19,4 +26,6 @@ public class Staff {
 	private String username;
 	private String password;
 	private String lastUpdate;
+	
+	private String fullName;
 }

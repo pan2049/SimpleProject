@@ -125,7 +125,13 @@ public class ListController {
 	// 加權限
 	@PostMapping(value = "/customer")
 	public String addCustomer(@RequestBody Customer customer) {
-		listService.createCustomer(customer);
+		if(customer == null) {
+			// 參數null 回傳錯誤
+			System.out.println("參數null回傳錯誤");
+			return null;
+		}
+		// 加資料(物件)檢查程序
+		listService.addCustomer(customer);
 		return "";
 	}
 	
@@ -133,7 +139,13 @@ public class ListController {
 	// 加權限
 	@DeleteMapping(value = "/customer")
 	public String deleltCustomer(@RequestParam Integer id) {
-		listService.deleteCutomerAndAddress(id);
+		if(id == null) {
+			// 參數null 回傳錯誤
+			System.out.println("參數null回傳錯誤");
+			return null;
+		}
+		// 加資料(物件)檢查程序
+		listService.deleteCustomerAndAddress(id);
 		return "";
 	}
 	

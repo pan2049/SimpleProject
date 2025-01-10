@@ -90,7 +90,7 @@ public class ListService {
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
-	public void createCustomer(Customer customer) {
+	public void addCustomer(Customer customer) {
 		addressDao.insertAddress(customer.getAddress());
 		Integer lastId = addressDao.selectLastInsertId();
 		customer.getAddress().setAddressId(lastId);
