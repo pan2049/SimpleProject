@@ -42,5 +42,17 @@ logging:
     fasterxml:
       jackson:
         databind: debug
+        
+### SSL 設定，使用keystore.p12
+#server:
+#  port: 8081
+#  ssl:
+#    enabled: true
+#    key-store: classpath:keystore.p12
+#    key-store-password: 123456
+#    key-password: 123456
+#    key-store-type: PKCS12
+#    protocol: TLS
+#    enabled-protocols: TLSv1.2
 
     

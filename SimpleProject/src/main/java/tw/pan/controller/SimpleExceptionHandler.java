@@ -1,8 +1,13 @@
 package tw.pan.controller;
 
-import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
+import javax.naming.AuthenticationException;
+
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,50 +21,73 @@ import tw.pan.utils.exception.RequestErrorException;
 
 @ControllerAdvice
 public class SimpleExceptionHandler {
+	
+	@ExceptionHandler({AuthenticationException.class, SecurityException.class})
+	@ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "auth Unauthorized")
+	public ErrorDto authException(Exception e, HttpServletRequest request) {
+		return new ErrorDto()
+				.setStatus(HttpStatus.UNAUTHORIZED.value())
+				.setMessage(e.getMessage())
+				.setPath(request.getRequestURI());
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "access denied")
+	public ErrorDto accessDeniedHandler(AccessDeniedException e, HttpServletRequest request) {
+		return new ErrorDto()
+				.setStatus(HttpStatus.UNAUTHORIZED.value())
+				.setMessage(e.getMessage())
+				.setPath(request.getRequestURI());
+	}
+	
+	@ExceptionHandler(EmptyResultDataAccessException.class)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "result data null")
+	public ErrorDto EmptyResultErrorHandler(EmptyResultDataAccessException e, HttpServletRequest request) {
+		return new ErrorDto()
+				.setStatus(HttpStatus.NO_CONTENT.value())
+				.setMessage(e.getMessage())
+				.setPath(request.getRequestURI());
+	}
+
+	@ExceptionHandler(DuplicateKeyException.class)
+	@ResponseStatus(value = HttpStatus.CONFLICT, reason = "duplicate key")
+	public ErrorDto duplicateKeyHandler(DuplicateKeyException e, HttpServletRequest request) {
+		return new ErrorDto()
+				.setStatus(HttpStatus.CONFLICT.value())
+				.setMessage(e.getMessage())
+				.setPath(request.getRequestURI());
+	}
 
 	@ExceptionHandler(DatabaseOperateException.class)
-	public ErrorDto serverErrorHandler(HttpServletRequest request) {
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "database operate error")
+	public ErrorDto sqlOperateHandler(HttpServletRequest request) {
 		return new ErrorDto()
 				.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
 				.setPath(request.getRequestURI());
 	}
 	
 	@ExceptionHandler(PageNotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "page not found")
 	public ErrorDto pageNotFoundHandler(HttpServletRequest request) {
 		return new ErrorDto()
 				.setStatus(HttpStatus.NOT_FOUND.value())
 				.setPath(request.getRequestURI());
 	}
 	
-	@ExceptionHandler(RequestErrorException.class)
-	public ErrorDto badRequestHandler(RequestErrorException e, HttpServletRequest request) {
+	@ExceptionHandler({RequestErrorException.class, ValidationException.class})
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public ErrorDto badRequestHandler(Exception e, HttpServletRequest request) {
 		return new ErrorDto()
 				.setStatus(HttpStatus.BAD_REQUEST.value())
 				.setMessage(e.getMessage())
 				.setPath(request.getRequestURI());
 	}
 	
-	@ExceptionHandler(IOException.class)
+	@ExceptionHandler(Exception.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ErrorDto sqlExceptionHandler(IOException e) {
+	public ErrorDto serverErrorHandler(Exception e) {
 		return new ErrorDto()
 				.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-				.setMessage(e.getLocalizedMessage());
-	}
-	
-	@ExceptionHandler(ClassNotFoundException.class)
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	public ErrorDto classNotFoundException(ClassNotFoundException e) {
-		return new ErrorDto()
-				.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-				.setMessage(e.getLocalizedMessage());
-	}
-	
-	@ExceptionHandler(ValidationException.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	public ErrorDto handleValidationExceptions(ValidationException e) {
-		return new ErrorDto()
-				.setStatus(HttpStatus.BAD_REQUEST.value())
 				.setMessage(e.getLocalizedMessage());
 	}
 	

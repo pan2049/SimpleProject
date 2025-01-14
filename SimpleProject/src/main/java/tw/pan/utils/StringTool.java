@@ -31,5 +31,6 @@ public class StringTool {
 		Date date = new Date();
 		return sdf.format(date);
 	}
+
 	
 }

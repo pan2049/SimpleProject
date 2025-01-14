@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.pan.entity.dto.CustomerDto;
-import tw.pan.entity.po.Address;
 import tw.pan.entity.po.Customer;
 import tw.pan.entity.po.Film;
 import tw.pan.entity.po.Inventory;
@@ -100,13 +99,13 @@ public class ListService {
 	}
 	
 	@Transactional(rollbackFor = DatabaseOperateException.class)
-	public void deleteCustomerAndAddress(Integer customerId) {
+	public void deleteCustomerAndAddress(Integer customerId) throws DatabaseOperateException {
 		Customer customer = customerDao.selectCustomerById(customerId);
 		if(customer != null) {
 			customerDao.deleteCustomerById(customerId);
 			addressDao.deleteAddress(customer.getAddress().getAddressId());
 		}else {
-			// 資料錯誤
+			throw new DatabaseOperateException();
 		}
 		
 	}
