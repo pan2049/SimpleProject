@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "tw.pan.mappers.CustomerDao">
-	<resultMap id = "customerWithAddress" type = "tw.pan.entity.Customer">
+	<resultMap id = "customerWithAddress" type = "tw.pan.entity.po.Customer">
 		<id property = "customerId" column = "customer_id"></id>
 		<result property="firstName" column="first_name"/>
 		<result property="lastName" column="last_name"/>
@@ -11,7 +11,7 @@
 		<result property="lastUpdate" column="customer_last_update"/>
 		<result property="fullName" column="full_name"/>
 		<result property="note" column="note"/>
-		<association property="address" javaType="tw.pan.entity.Address">
+		<association property="address" javaType="tw.pan.entity.po.Address">
 			<id property = "addressId" column = "address_id"/>
 			<result property="address" column="address"/>
 			<result property="address2" column="address2"/>
@@ -19,11 +19,11 @@
 			<result property="postalCode" column="postal_code"/>
 			<result property="phone" column="phone"/>
 			<result property="lastUpdate" column="address_last_update"/>
-			<association property="city" javaType="tw.pan.entity.City">
+			<association property="city" javaType="tw.pan.entity.po.City">
 				<id property="cityId" column="city_id"/>
 				<result property="city" column="city"/>
 				<result property="lastUpdate" column="city_last_update"/>
-				<association property="country" javaType="tw.pan.entity.Country">
+				<association property="country" javaType="tw.pan.entity.po.Country">
 					<id property="countryId" column="country_id"/>
 					<result property="country" column="country"/>
 					<result property="lastUpdate" column="country_last_update"/>
@@ -90,9 +90,9 @@
 		<include refid="orderByRef"></include>
 	</select>
 
-	<insert id="insertCustomer" parameterType="tw.pan.entity.Customer" >
+	<insert id="insertCustomer" parameterType="tw.pan.entity.dto.CustomerDto" >
 		INSERT INTO sakila.customer (`store_id`, `first_name`, `last_name`, `email`, `address_id`) 
-		VALUES (#{store.storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId})
+		VALUES (#{storeId}, #{firstName}, #{lastName}, #{email}, #{addressId})
 	</insert>
 	
 	<delete id="deleteCustomerById" parameterType="java.lang.Integer">

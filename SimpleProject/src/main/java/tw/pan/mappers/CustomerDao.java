@@ -2,7 +2,8 @@ package tw.pan.mappers;
 
 import java.util.List;
 
-import tw.pan.entity.Customer;
+import tw.pan.entity.dto.CustomerDto;
+import tw.pan.entity.po.Customer;
 
 public interface CustomerDao {
 
@@ -12,7 +13,7 @@ public interface CustomerDao {
 	
 	public Customer selectCustomerById(Integer id);
 	
-	public void insertCustomer(Customer customer);
+	public void insertCustomer(CustomerDto customerDto);
 	
 	public void deleteCustomerById(Integer id);
 }

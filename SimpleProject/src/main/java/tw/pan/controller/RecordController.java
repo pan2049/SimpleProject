@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tw.pan.entity.Payment;
-import tw.pan.entity.Rental;
+import tw.pan.entity.po.Payment;
+import tw.pan.entity.po.Rental;
 import tw.pan.service.RecordService;
 import tw.pan.utils.StringTool;
 

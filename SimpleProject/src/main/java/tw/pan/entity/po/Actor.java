@@ -1,4 +1,4 @@
-package tw.pan.entity;
+package tw.pan.entity.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -2,7 +2,7 @@ package tw.pan.mappers;
 
 import java.util.List;
 
-import tw.pan.entity.Payment;
+import tw.pan.entity.po.Payment;
 
 public interface PaymentDao {
 

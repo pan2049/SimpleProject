@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "tw.pan.mappers.StoreDao">
-	<resultMap id = "storeWithAddress" type = "tw.pan.entity.Store">
+	<resultMap id = "storeWithAddress" type = "tw.pan.entity.po.Store">
 		<id property = "storeId" column = "store_id"></id>
 		<result property="managerStaffId" column="manager_staff_id"/>
 		<result property="lastUpdate" column="store_last_update"/>
-		<association property="address" javaType="tw.pan.entity.Address">
+		<association property="address" javaType="tw.pan.entity.po.Address">
 			<id property = "addressId" column = "address_id"/>
 			<result property="address" column="address"/>
 			<result property="address2" column="address2"/>
@@ -13,11 +13,11 @@
 			<result property="postalCode" column="postal_code"/>
 			<result property="phone" column="phone"/>
 			<result property="lastUpdate" column="address_last_update"/>
-			<association property="city" javaType="tw.pan.entity.City">
+			<association property="city" javaType="tw.pan.entity.po.City">
 				<id property="cityId" column="city_id"/>
 				<result property="city" column="city"/>
 				<result property="lastUpdate" column="city_last_update"/>
-				<association property="country" javaType="tw.pan.entity.Country">
+				<association property="country" javaType="tw.pan.entity.po.Country">
 					<id property="countryId" column="country_id"/>
 					<result property="country" column="country"/>
 					<result property="lastUpdate" column="country_last_update"/>

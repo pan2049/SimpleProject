@@ -1,4 +1,4 @@
-package tw.pan.service;
+	package tw.pan.service;
 
 import java.util.List;
 
@@ -7,16 +7,18 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tw.pan.entity.Address;
-import tw.pan.entity.Customer;
-import tw.pan.entity.Film;
-import tw.pan.entity.Inventory;
-import tw.pan.entity.Store;
+import tw.pan.entity.dto.CustomerDto;
+import tw.pan.entity.po.Address;
+import tw.pan.entity.po.Customer;
+import tw.pan.entity.po.Film;
+import tw.pan.entity.po.Inventory;
+import tw.pan.entity.po.Store;
 import tw.pan.mappers.AddressDao;
 import tw.pan.mappers.CustomerDao;
 import tw.pan.mappers.FilmDao;
 import tw.pan.mappers.InventoryDao;
 import tw.pan.mappers.StoreDao;
+import tw.pan.utils.exception.DatabaseOperateException;
 
 @Service
 public class ListService {
@@ -89,15 +91,15 @@ public class ListService {
 		return inventoryDao.selectInventoryByFilm(name);
 	}
 	
-	@Transactional(rollbackFor = Exception.class)
-	public void addCustomer(Customer customer) {
-		addressDao.insertAddress(customer.getAddress());
+	@Transactional(rollbackFor = DatabaseOperateException.class)
+	public void addCustomer(CustomerDto customerDto) {
+		addressDao.insertAddress(customerDto);
 		Integer lastId = addressDao.selectLastInsertId();
-		customer.getAddress().setAddressId(lastId);
-		customerDao.insertCustomer(customer);
+		customerDto.setAddressId(lastId);
+		customerDao.insertCustomer(customerDto);
 	}
 	
-	@Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = DatabaseOperateException.class)
 	public void deleteCustomerAndAddress(Integer customerId) {
 		Customer customer = customerDao.selectCustomerById(customerId);
 		if(customer != null) {

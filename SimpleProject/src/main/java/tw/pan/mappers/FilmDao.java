@@ -2,7 +2,7 @@ package tw.pan.mappers;
 
 import java.util.List;
 
-import tw.pan.entity.Film;
+import tw.pan.entity.po.Film;
 
 public interface FilmDao {
 

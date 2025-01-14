@@ -8,7 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
-import tw.pan.entity.Film;
+import tw.pan.entity.po.Film;
 
 @Component
 public class SystemStart {

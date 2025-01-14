@@ -1,4 +1,4 @@
-package tw.pan.entity;
+package tw.pan.entity.po;
 
 import java.io.Serializable;
 
@@ -8,16 +8,15 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PageData implements Serializable{
-	
+public class City implements Serializable{
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Integer page;
-	private Integer size;
-	private Integer total;
-	
-
+	private Integer cityId;
+	private String city;
+	private Country country;
+	private String lastUpdate;
 }

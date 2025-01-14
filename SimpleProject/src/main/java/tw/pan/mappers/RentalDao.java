@@ -2,7 +2,7 @@ package tw.pan.mappers;
 
 import java.util.List;
 
-import tw.pan.entity.Rental;
+import tw.pan.entity.po.Rental;
 
 public interface RentalDao {
 

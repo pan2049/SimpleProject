@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace = "tw.pan.mappers.RentalDao">
-	<resultMap id = "rentalWithCustomer" type = "tw.pan.entity.Rental">
+	<resultMap id = "rentalWithCustomer" type = "tw.pan.entity.po.Rental">
 		<id property = "rentalId" column = "rental_id"></id>
 		<result property="rentalDate" column="rental_date"/>
 		<result property="returnDate" column="return_date"/>
 		<result property="lastUpdate" column="rental_last_update"/>
-		<association property="inventory" javaType="tw.pan.entity.Inventory">
+		<association property="inventory" javaType="tw.pan.entity.po.Inventory">
 			<id property = "inventoryId" column = "inventory_id"></id>
 			<result property="lastUpdate" column="inventory_last_update"/>
 			<result property="quantity" column="quantity"/>
-			<association property="film" javaType="tw.pan.entity.Film">
+			<association property="film" javaType="tw.pan.entity.po.Film">
 				<id property = "filmId" column = "film_id"/>
 				<result property="title" column="title"/>
 			</association>
 		</association>
-		<association property="customer" javaType="tw.pan.entity.Customer">
+		<association property="customer" javaType="tw.pan.entity.po.Customer">
 			<id property = "customerId" column = "customer_id"></id>
 			<result property="fullName" column="customer_name"/>
 		</association>
-		<association property="staff" javaType="tw.pan.entity.Staff">
+		<association property="staff" javaType="tw.pan.entity.po.Staff">
 			<id property = "staffId" column = "staff_id"></id>
 			<result property="fullName" column="staff_name"/>
 		</association>
@@ -73,11 +73,11 @@
 		LIMIT #{page}, #{size}
 	</select>
 
-	<insert id = "insertRental" parameterType="tw.pan.entity.Rental">
+	<insert id = "insertRental" parameterType="tw.pan.entity.po.Rental">
 		INSERT INTO sakila.rental (`inventory_id`, `customer_id`, `staff_id`) VALUES (#{inventory.inventoryId}, #{customer.customerId}, #{staff.staffId})
 	</insert>
 	
-	<update id="updateRental" parameterType="tw.pan.entity.Rental">
+	<update id="updateRental" parameterType="tw.pan.entity.po.Rental">
 		UPDATE sakila.rental SET `return_date` = #{returnDate}, `staff_id` = #{staff.staffId} WHERE `rental_id` = #{rentalId}
 	</update>
 

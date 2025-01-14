@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tw.pan.entity.Payment;
-import tw.pan.entity.Rental;
+import tw.pan.entity.po.Payment;
+import tw.pan.entity.po.Rental;
 import tw.pan.mappers.PaymentDao;
 import tw.pan.mappers.RentalDao;
 

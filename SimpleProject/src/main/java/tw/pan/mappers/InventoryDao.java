@@ -2,7 +2,7 @@ package tw.pan.mappers;
 
 import java.util.List;
 
-import tw.pan.entity.Inventory;
+import tw.pan.entity.po.Inventory;
 
 public interface InventoryDao {
 

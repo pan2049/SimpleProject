@@ -1,4 +1,4 @@
-package tw.pan.entity;
+package tw.pan.entity.po;
 
 import java.io.Serializable;
 

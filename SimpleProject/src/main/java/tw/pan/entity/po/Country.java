@@ -1,4 +1,4 @@
-package tw.pan.entity;
+package tw.pan.entity.po;
 
 import java.io.Serializable;
 
@@ -8,17 +8,14 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Inventory implements Serializable{
+public class Country implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Integer inventoryId;
-	private Film film;
-	private Store store;
+	private Integer countryId;
+	private String country;
 	private String lastUpdate;
-	
-	private Integer quantity;
 }
