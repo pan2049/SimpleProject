@@ -2,6 +2,8 @@ package tw.pan.mappers;
 
 import java.util.List;
 
+import tw.pan.entity.dto.InsertRentalDto;
+import tw.pan.entity.dto.UpdateRentalDto;
 import tw.pan.entity.po.Rental;
 
 public interface RentalDao {
@@ -10,7 +12,7 @@ public interface RentalDao {
 	
 	public List<Rental> selectRentalByCustomer(String name, Integer page, Integer size);
 	
-	public void insertRental(Rental rental);
+	public void insertRental(InsertRentalDto rentalDto);
 	
-	public void updateRental(Rental rental);
+	public void updateRental(UpdateRentalDto rentalDto);
 }

@@ -2,16 +2,14 @@ package tw.pan.controller;
 
 import java.nio.file.AccessDeniedException;
 
-import javax.naming.AuthenticationException;
-
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ValidationException;
 import tw.pan.entity.dto.ErrorDto;
@@ -22,7 +20,7 @@ import tw.pan.utils.exception.RequestErrorException;
 @ControllerAdvice
 public class SimpleExceptionHandler {
 	
-	@ExceptionHandler({AuthenticationException.class, SecurityException.class})
+	@ExceptionHandler(SecurityException.class)
 	@ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "auth Unauthorized")
 	public ErrorDto authException(Exception e, HttpServletRequest request) {
 		return new ErrorDto()
@@ -31,11 +29,11 @@ public class SimpleExceptionHandler {
 				.setPath(request.getRequestURI());
 	}
 	
-	@ExceptionHandler(AccessDeniedException.class)
+	@ExceptionHandler({AccessDeniedException.class, MalformedJwtException.class})
 	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "access denied")
-	public ErrorDto accessDeniedHandler(AccessDeniedException e, HttpServletRequest request) {
+	public ErrorDto accessDeniedHandler(Exception e, HttpServletRequest request) {
 		return new ErrorDto()
-				.setStatus(HttpStatus.UNAUTHORIZED.value())
+				.setStatus(HttpStatus.FORBIDDEN.value())
 				.setMessage(e.getMessage())
 				.setPath(request.getRequestURI());
 	}

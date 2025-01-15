@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +26,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(responseEntity.getStatusCode().value());
 		response.setContentType(responseEntity.getHeaders().getContentType().toString());
-		response.getWriter().write(responseEntity.getBody());
+		response.getWriter().write(new ObjectMapper().writeValueAsString(responseEntity.getBody()));
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import tw.pan.entity.po.Film;
@@ -29,5 +30,14 @@ public class SystemStart {
 //		List<Film> deserialized = (ArrayList) serializer.deserialize(serialized); // 測試反序列化
 //
 //		System.out.println(deserialized);
+		
+		String password = "123";
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+//		String result = encoder.encode(password);
+		String encoderStr = "$2a$16$O45frzOGfjkv.hrTU9CmTudTHH9/0eLLEYcmXsLaJ1pqXxV8E1Oiu";
+		System.out.println("password : "+password);
+		System.out.println("encoder : "+encoderStr);
+		System.out.println(encoder.matches("123", encoderStr));
+		
 	}
 }

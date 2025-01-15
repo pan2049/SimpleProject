@@ -73,12 +73,12 @@
 		LIMIT #{page}, #{size}
 	</select>
 
-	<insert id = "insertRental" parameterType="tw.pan.entity.po.Rental">
-		INSERT INTO sakila.rental (`inventory_id`, `customer_id`, `staff_id`) VALUES (#{inventory.inventoryId}, #{customer.customerId}, #{staff.staffId})
+	<insert id = "insertRental" parameterType="tw.pan.entity.dto.InsertRentalDto">
+		INSERT INTO sakila.rental (`inventory_id`, `customer_id`, `staff_id`) VALUES (#{inventoryId}, #{customerId}, #{staffId})
 	</insert>
 	
-	<update id="updateRental" parameterType="tw.pan.entity.po.Rental">
-		UPDATE sakila.rental SET `return_date` = #{returnDate}, `staff_id` = #{staff.staffId} WHERE `rental_id` = #{rentalId}
+	<update id="updateRental" parameterType="tw.pan.entity.dto.UpdateRentalDto">
+		UPDATE sakila.rental SET `return_date` = #{returnDate}, `staff_id` = #{staffId} WHERE `rental_id` = #{rentalId}
 	</update>
 
 </mapper>

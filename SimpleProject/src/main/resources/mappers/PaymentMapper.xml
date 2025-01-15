@@ -78,7 +78,7 @@
 		LIMIT #{page}, #{size}
 	</select>
 	
-	<insert id="insertPayment" parameterType="tw.pan.entity.po.Payment">
+	<insert id="insertPayment" parameterType="tw.pan.entity.dto.PaymentDto">
 		INSERT INTO sakila.payment (`customer_id`, `staff_id`, `rental_id`, `amount`) 
 		VALUES (#{customerId}, #{staffId}, #{rentalId}, #{amount})
 	</insert>

@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import tw.pan.entity.dto.PaymentDto;
+import tw.pan.entity.dto.InsertRentalDto;
+import tw.pan.entity.dto.UpdateRentalDto;
 import tw.pan.entity.po.Payment;
 import tw.pan.entity.po.Rental;
 import tw.pan.mappers.PaymentDao;
 import tw.pan.mappers.RentalDao;
+import tw.pan.utils.exception.DatabaseOperateException;
 
 @Service
 public class RecordService {
@@ -27,12 +32,14 @@ public class RecordService {
 		return rentalDao.selectRentalByCustomer(name, page, size);
 	}
 	
-	public void addRental(Rental rental) {
-		rentalDao.insertRental(rental);
+	@Transactional(rollbackFor = DatabaseOperateException.class)
+	public void addRental(InsertRentalDto rentalDto) {
+		rentalDao.insertRental(rentalDto);
 	}
 	
-	public void updateRental(Rental rental) {
-		rentalDao.updateRental(rental);
+	@Transactional(rollbackFor = DatabaseOperateException.class)
+	public void updateRental(UpdateRentalDto rentalDto) {
+		rentalDao.updateRental(rentalDto);
 	}
 	
 	public List<Payment> getAllPaymentRecord(Integer page, Integer size) {
@@ -47,7 +54,8 @@ public class RecordService {
 		return paymentDao.selectPaymentByDate(startTime, endTime, page, size);
 	}
 	
-	public void addPayment(Payment payment) {
-		paymentDao.insertPayment(payment);
+	@Transactional(rollbackFor = DatabaseOperateException.class)
+	public void addPayment(PaymentDto paymentDto) {
+		paymentDao.insertPayment(paymentDto);
 	}
 }
