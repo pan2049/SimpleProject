@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,13 +39,13 @@ public class ListService {
 		return filmDao.selectAllFilm();
 	}
 	
-	@Cacheable(value = "filmSearchCache", key = "#text")
+	@Cacheable(value = "filmSearchCache", key = "'fuzzy_' + #text")
 	public List<Film> getFilmFuzzyQuery(String text) {
 		System.out.println("search!!!");
 		return filmDao.selectFilm(text);
 	}
 	
-	@Cacheable(value = "filmSearchCache", key = "#texts.toString()")
+	@Cacheable(value = "filmSearchCache", key = "'most_' + #texts.toString()")
 	public List<Film> getFilmFuzzyQuery(List<String> texts) {
 		String likeStr = "";
 		for(String text : texts) {
@@ -69,6 +70,7 @@ public class ListService {
 		return customerDao.selectAllCustomer();
 	}
 	
+	@Cacheable(value = "customerSearchCache", key = "'byName_' + #name")
 	public List<Customer> getCustomerByName(String name) {
 		return customerDao.selectCustomerByName(name);
 	}
@@ -91,6 +93,7 @@ public class ListService {
 	}
 	
 	@Transactional(rollbackFor = DatabaseOperateException.class)
+	@CacheEvict(value = "customerSearchCache")
 	public void addCustomer(CustomerDto customerDto) {
 		addressDao.insertAddress(customerDto);
 		Integer lastId = addressDao.selectLastInsertId();
@@ -99,6 +102,7 @@ public class ListService {
 	}
 	
 	@Transactional(rollbackFor = DatabaseOperateException.class)
+	@CacheEvict(value = "customerSearchCache")
 	public void deleteCustomerAndAddress(Integer customerId) throws DatabaseOperateException {
 		Customer customer = customerDao.selectCustomerById(customerId);
 		if(customer != null) {

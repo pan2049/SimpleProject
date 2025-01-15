@@ -31,13 +31,13 @@ public class SystemStart {
 //
 //		System.out.println(deserialized);
 		
-		String password = "123";
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+//		String password = "123";
+//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
 //		String result = encoder.encode(password);
-		String encoderStr = "$2a$16$O45frzOGfjkv.hrTU9CmTudTHH9/0eLLEYcmXsLaJ1pqXxV8E1Oiu";
-		System.out.println("password : "+password);
-		System.out.println("encoder : "+encoderStr);
-		System.out.println(encoder.matches("123", encoderStr));
+//		String encoderStr = "$2a$16$O45frzOGfjkv.hrTU9CmTudTHH9/0eLLEYcmXsLaJ1pqXxV8E1Oiu";
+//		System.out.println("password : "+password);
+//		System.out.println("encoder : "+encoderStr);
+//		System.out.println(encoder.matches("123", encoderStr));
 		
 	}
 }

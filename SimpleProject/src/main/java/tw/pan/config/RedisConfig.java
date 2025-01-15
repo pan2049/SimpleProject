@@ -35,6 +35,12 @@ public class RedisConfig {
 	      .withCacheConfiguration("filmCategoryCache", 
 	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
 	      .withCacheConfiguration("customerSearchCache", 
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
+	      .withCacheConfiguration("rentalRecordCache", 
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
+	      .withCacheConfiguration("paymentRecordCache", 
+	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)))
+	      .withCacheConfiguration("paymentDateRecordCache", 
 	    		  RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(1)));
 	}
 	
