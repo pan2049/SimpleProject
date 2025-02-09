@@ -13,6 +13,14 @@ jobs:
               uses: actions/checkout@v3
               with:
                 fetch-depth: 3
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.9'
+
+            - name: Install dependencies
+              run: |
+                pip install -r aphra/requirements.txt
 
             - name: Auto Translate
               uses: Lin-jun-xiang/action-translate-readme@v2 # Based on the tag
