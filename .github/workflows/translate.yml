@@ -19,4 +19,3 @@ jobs:
               with:
                 token: ${{ secrets.Action_Bot }} # Based on step2 name
                 langs: "en,zh-TW,zh-CN,French,Arabic" # You can define any langs
-                openai: ${{ secrets.openai_api_key }}
