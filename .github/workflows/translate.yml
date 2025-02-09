@@ -17,11 +17,6 @@ jobs:
               uses: actions/setup-python@v4
               with:
                 python-version: '3.9'
-
-            - name: Install dependencies
-              run: |
-                pip install -r requirements.txt
-
             - name: Auto Translate
               uses: Lin-jun-xiang/action-translate-readme@v2 # Based on the tag
               with:
