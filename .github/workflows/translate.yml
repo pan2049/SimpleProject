@@ -20,7 +20,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                pip install -r aphra/requirements.txt
+                pip install -r requirements.txt
 
             - name: Auto Translate
               uses: Lin-jun-xiang/action-translate-readme@v2 # Based on the tag
