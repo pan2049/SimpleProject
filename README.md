@@ -2,6 +2,7 @@
 
 * [English](README.md)
 * [繁體中文版README.md](README.zh-TW.md)
+* [日本語版README.md](README.jp.md)
 
 ## Project Description
 SimpleProject is a sample project showcasing the basic structure of the Spring Boot framework and Spring MVC architecture. It uses MySQL's official Sakila Sample Database as a foundation to implement data retrieval, creation, updating, and deletion functionalities. This project is designed to meet industry-standard frontend-backend separation, focusing on the Controller (C) and Model (M) components while providing RESTful APIs.
