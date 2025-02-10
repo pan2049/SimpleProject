@@ -2,6 +2,7 @@
 
 * [English](README.md)
 * [繁體中文版README.md](README.zh-TW.md)
+* [日本語版README.md](README.jp.md)
 
 ## 專案描述
 SimpleProject 是一個展示基本 Spring Boot 框架和 Spring MVC 架構的範例專案。資料庫使用 MySQL 官方提供的 Sakila Sample Database 作為基礎，實現資料的讀取、新增、修改、刪除等功能。本專案同時滿足業界常見的前後端分離需求，專注於 C（Controller）與 M（Model）部分，並提供 RESTful API。
